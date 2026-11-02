@@ -27,23 +27,26 @@ You can pick one:
 
 Both approaches yield the same result. Use **only one** of them.
 
-## Compatible models
+## Hardware compatibility and known test coverage
 
-Lenovo laptops shipping this sensor include, but are not limited to:
+The USB ID `10a5:9800` identifies the FPC sensor controller. It is a useful first check, **not a guarantee that every Lenovo laptop or generation is compatible**. Compatibility also depends on the exact sensor and firmware, Lenovo library build, Fedora ABI/dependencies, udev rules and authentication stack.
 
-- ThinkPad E14 Gen 4 (21E3/21E4)
-- ThinkPad E15 Gen 4
-- ThinkPad E16 Gen 1
-- IdeaPad / IdeaBook models with the same FPC sensor
+- **ThinkPad E14 Gen 4 / E15 Gen 4:** named by Lenovo's support listing for the driver archive used by this guide.
+- **ThinkPad E16 Gen 1:** separately tested with the isolated Fedora 46+/Rawhide procedure in [`docs/fedora-46-rawhide.md`](docs/fedora-46-rawhide.md).
+- **Other ThinkPad, IdeaPad and Lenovo models:** unverified unless the same sensor and driver combination has been confirmed on that model.
 
-Confirm with:
+Check the actual device:
 
 ```bash
-lsusb | grep -i 10a5:9800
-# Bus 003 Device 002: ID 10a5:9800 FPC FPC Sensor Controller L:0002 FW:27.26.23.33
+lsusb -d 10a5:9800
 ```
 
-If the device shows up, this guide applies.
+A matching USB ID confirms that the device enumerates; it does not by itself prove that the driver will work. Choose the procedure documented for the Fedora release and desktop/login stack you actually run.
+
+
+## Fedora 46+ / Rawhide (separate, isolated method)
+
+For Fedora 46 Rawhide with KDE Plasma 6 and SDDM, see the [separate Fedora 46+/Rawhide guide](docs/fedora-46-rawhide.md). It documents an isolated `/opt/fpc-test` setup tested on a ThinkPad E16 Gen 1. Unlike the Fedora 44 procedure above, it does not replace Fedora's packaged `libfprint`. **Do not combine the two installation methods.**
 
 ## Why this procedure is needed
 
